@@ -1,22 +1,42 @@
-from tkinter import *
+from tkinter import * 
+from tkinter import ttk
 from tkinter import filedialog
-from tkinter.ttk import *
-from tkinter.filedialog import askopenfile
-import ruamel.yaml   
+from tkinter.filedialog import askopenfile, asksaveasfile
+from typing import Collection
+import ruamel.yaml
 import json
+root =Tk()
+root.geometry('500x300')
 
+#Field name
+selectfile=Label(root,text="Select file")
+savefile=Label(root,text="Save file")
 
-r=Tk()
-r.geometry('700x500')
+#pacling fileds
+selectfile.grid(row=1,column=2,padx=5,pady=10)
+savefile.grid(row=2,column=2,padx=5,pady=10)
+
+#variables for storing data
+selectfilevalue=StringVar
+savefilevalue=StringVar
+
+# creating entry filed
+selectfileentry=Entry(root,textvariable=selectfilevalue)
+savefileentry=Entry(root,textvariable=savefilevalue)
+
+#packinf entry fields
+selectfileentry.grid(row=1,column=3)
+savefileentry.grid(row=2,column=3)
 
 def open_file():
     global filepath
     filepath=filedialog.askopenfilename( title="Select a YAML file", filetypes=[("Yaml File","*.yaml"),("","*.yml")])
+    selectfileentry.insert(0,filepath)
 
 def save_file_dir():
     global savepath
-    savepath= filedialog.asksaveasfilename(title="Select the directory to save JSON file")
-
+    savepath= filedialog.asksaveasfilename(title="Select the directory to save JSON file",filetypes=[("json files","*.json"),("","*.json")])
+    savefileentry.insert(0,savepath)
 def convert():
     in_file = filepath
     out_file = savepath
@@ -26,19 +46,27 @@ def convert():
     with open(out_file, 'w') as o:
         json.dump(data, o, indent=2)
 
+def popup():
+    popupwindow=Toplevel(root)
+    popupwindow.title("sucess")
+    popupwindow.geometry("200x50")
+    Label(popupwindow,text="parsing successful").grid(row=0,column=0)
+    popupwindow.mainloop()
+    
 
+def clear():
+    selectfileentry.delete(0,END)
+    savefileentry.delete(0,END)
 
-btn= Button( text='Open', command = open_file)
-btn.pack(side= BOTTOM)
+Button(text="Parse",command=lambda:[convert(),popup()]).grid(row=3,column=3,padx=5,pady=10)
 
-btn2= Button( text='Save to', command= save_file_dir)
-btn2.pack(side= TOP)
+Button(text="Browse",command=open_file).grid(row=1,column=4,pady=10,padx=5)
 
-btn3= Button( text='Click to convert', command= convert)
-btn3.pack(side= RIGHT)
+Button(text="Browse",command=save_file_dir).grid(row=2,column=4,padx=5,pady=10)
 
-btn4= Button(text="Cancel",  command=r.destroy)
-btn4.place(x=0, y=1)
+Button(text="cancle",command=root.destroy).grid(row=3,column=5,padx=5,pady=10)
 
-r.title("YAML to JSON converter")
-r.mainloop()
+Button(text="Clear",command=clear).grid(row=3,column=4,padx=5,pady=10)
+
+root.title("YAML to JSON converter")
+root.mainloop()
