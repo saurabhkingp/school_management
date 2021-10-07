@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile, asksaveasfile
 from typing import Collection
+from glob import glob
 import ruamel.yaml
 import json
 
@@ -42,6 +43,7 @@ def save_file_dir():
     global savepath
     savepath= filedialog.asksaveasfilename(title="Select the directory to save JSON file",filetypes=[("json files","*.json"),("","*.json")])
     savefileentry.insert(0,savepath)
+
 def convert():
     in_file = filepath
     out_file = savepath
@@ -53,9 +55,11 @@ def convert():
 
 def popup():
     popupwindow=Toplevel(root)
+    popupwindow.configure(bg = "#b1cee9")
     popupwindow.title("Success")
     popupwindow.geometry("200x50")
     Label(popupwindow,text="Conversion Successful").grid(row=0,column=0)
+    ttk.Button(popupwindow, text="Close",command=popupwindow.destroy).grid(row=1, column=1)
     popupwindow.mainloop()
     
 
