@@ -32,3 +32,11 @@ ttk.Button(text="Cancel",command=root.destroy).grid(row=3,column=5,padx=5,pady=1
 root.title("YAML to JSON converter")
 root.resizable(False, False)
 root.mainloop()    
+
+
+
+
+D_Lib: debug printing for files [.*] and level [100] is turned on
+D_Lib: debug printing for files [.*] and level [200] is turned on
+D_Lib: debug printing for files [.*] and level [300] is turned on
+13008:.../engine/vf_shex/vf_shex.cpp(91): INFO: DllCanUnloadNow returned S_OK.
